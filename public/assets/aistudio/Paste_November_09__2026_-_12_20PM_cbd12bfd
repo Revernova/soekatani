@@ -1,0 +1,1271 @@
+<!-- ... existing code ... -->
+  <!-- ================= TOP CONTROLLER: DEVICE VIEW SWITCHER ================= -->
+  <header class="bg-slate-900 text-white text-xs px-4 py-2 sticky top-0 z-50 shadow-md border-b border-slate-800">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span class="inline-block w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span class="font-semibold text-slate-200">SoekaTani Suite:</span>
+        <span class="text-slate-400 hidden sm:inline">Peralihan Peran & Simulasi Tampilan Perangkat</span>
+      </div>
+
+      <!-- Mode Switcher Buttons -->
+      <div class="flex items-center gap-2 flex-wrap">
+        <!-- Role Switcher (Buyer vs Seller) -->
+        <div class="flex items-center bg-emerald-950/80 p-1 rounded-xl border border-emerald-700/60 shadow-inner">
+          <button id="btn-role-buyer" onclick="switchAppRole('buyer')" class="px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold transition-all bg-brand-500 text-slate-900 shadow-sm">
+            <i class="fa-solid fa-basket-shopping"></i>
+            <span>Toko Pembeli</span>
+          </button>
+          <button id="btn-role-seller" onclick="switchAppRole('seller')" class="px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold transition-all text-emerald-300 hover:text-white">
+            <i class="fa-solid fa-tractor"></i>
+            <span>Portal Mitra Petani (Penjual)</span>
+            <span id="badge-seller-pending" class="ml-1 bg-amber-400 text-slate-900 text-[10px] px-1.5 py-0.2 rounded-full font-black">2</span>
+          </button>
+        </div>
+
+        <!-- Device Mode Switcher (Laptop vs HP) -->
+        <div class="flex items-center bg-slate-800 p-1 rounded-xl border border-slate-700">
+          <button id="btn-mode-laptop" onclick="setDeviceMode('laptop')" class="px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition-all bg-brand-800 text-white shadow-sm">
+            <i class="fa-solid fa-laptop"></i>
+            <span class="hidden sm:inline">Laptop</span>
+          </button>
+          <button id="btn-mode-mobile" onclick="setDeviceMode('mobile')" class="px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-medium transition-all text-slate-400 hover:text-white">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <span class="hidden sm:inline">HP (Mockup)</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= DEVICE WRAPPER ================= -->
+  <div id="device-wrapper" class="device-container w-full flex-1 transition-all duration-300">
+    
+    <div id="app-container" class="bg-brand-cream min-h-screen text-slate-800 flex flex-col justify-between">
+      
+      <!-- ================= BUYER VIEW SECTION ================= -->
+      <div id="buyer-interface" class="flex flex-col flex-1">
+        <!-- ================= MAIN HEADER NAVBAR ================= -->
+        <nav class="bg-brand-900 text-white sticky top-0 z-40 shadow-md transition-all">
+<!-- ... existing code ... -->
+            <!-- Secondary Navigation Categories Menu -->
+            <div class="bg-brand-900 border-t border-emerald-900/60 overflow-x-auto text-xs py-2 px-4 sm:px-6">
+              <div class="max-w-7xl mx-auto flex items-center gap-5 whitespace-nowrap font-medium text-emerald-100">
+                <button onclick="navigateTo('catalog')" class="flex items-center gap-2 hover:text-white px-2 py-1 rounded bg-brand-800/60 hover:bg-brand-800 font-semibold">
+                  <i class="fa-solid fa-bars"></i>
+                  <span>Semua Kategori</span>
+                </button>
+                <button onclick="navigateTo('home')" class="nav-link hover:text-white pb-0.5 border-b-2 border-brand-500 text-white font-semibold" data-target="home">Beranda</button>
+                <button onclick="filterCategoryAndNavigate('Buah')" class="nav-link hover:text-white pb-0.5 border-b-2 border-transparent" data-target="buah">Buah</button>
+                <button onclick="filterCategoryAndNavigate('Sayur')" class="nav-link hover:text-white pb-0.5 border-b-2 border-transparent" data-target="sayur">Sayur</button>
+                <button onclick="filterCategoryAndNavigate('Paket Hemat')" class="nav-link hover:text-white pb-0.5 border-b-2 border-transparent" data-target="paket">Paket Hemat</button>
+                <button onclick="switchAppRole('seller')" class="hover:text-emerald-300 font-bold flex items-center gap-1.5 bg-emerald-800/60 px-2 py-0.5 rounded text-[11px] text-amber-300">
+                  <i class="fa-solid fa-store"></i> Buka Portal Penjual
+                </button>
+                <button onclick="showToast('Halaman Tentang Kami: SoekaTani memberdayakan lebih dari 500+ petani Indonesia')" class="hover:text-white">Tentang Kami</button>
+              </div>
+            </div>
+          </nav>
+
+          <!-- Content Area (Page Views: Home, Catalog, Detail, Checkout, Success) -->
+          <main class="flex-1 pb-16">
+            <!-- ... existing pages: page-home, page-catalog, page-detail, page-checkout, page-success ... -->
+<!-- ... existing code ... -->
+          </main>
+      </div>
+
+      <!-- ================= SELLER / MITRA PETANI PORTAL ================= -->
+      <div id="seller-interface" class="hidden flex-col flex-1 bg-slate-50 min-h-screen">
+        
+        <!-- Seller Navigation Header -->
+        <nav class="bg-slate-900 text-white sticky top-0 z-40 border-b border-slate-800 shadow">
+          <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-extrabold text-xl shadow">
+                <i class="fa-solid fa-wheat-awn"></i>
+              </div>
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-extrabold text-sm sm:text-base text-white">Mitra Petani Dashboard</span>
+                  <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/40 text-[10px] px-2 py-0.5 rounded-full font-bold">Terverifikasi</span>
+                </div>
+                <p class="text-[11px] text-slate-400">Kelompok Tani Sari Mulyani &bull; Kebun Indramayu</p>
+              </div>
+            </div>
+
+            <!-- Quick Action & Back to Store -->
+            <div class="flex items-center gap-2">
+              <button onclick="openModalAddProduct()" class="px-3.5 py-2 rounded-xl bg-brand-500 hover:bg-brand-600 text-slate-950 font-bold text-xs flex items-center gap-1.5 shadow-md shadow-emerald-500/20 active:scale-95 transition">
+                <i class="fa-solid fa-plus text-xs"></i>
+                <span class="hidden sm:inline">Tambah Hasil Panen</span>
+              </button>
+              <button onclick="switchAppRole('buyer')" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-medium text-xs flex items-center gap-1.5 border border-slate-700">
+                <i class="fa-solid fa-arrow-left"></i>
+                <span class="hidden sm:inline">Toko Pembeli</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Secondary Tab Menu for Seller -->
+          <div class="border-t border-slate-800/80 px-4 sm:px-6 bg-slate-950/60 overflow-x-auto text-xs py-1">
+            <div class="max-w-7xl mx-auto flex items-center gap-3 font-semibold text-slate-300">
+              <button onclick="switchSellerTab('dashboard')" id="seller-tab-btn-dashboard" class="seller-nav-btn px-3 py-2 rounded-lg text-emerald-400 bg-slate-800 flex items-center gap-1.5">
+                <i class="fa-solid fa-chart-line"></i> Ringkasan & Statistik
+              </button>
+              <button onclick="switchSellerTab('products')" id="seller-tab-btn-products" class="seller-nav-btn px-3 py-2 rounded-lg hover:text-white hover:bg-slate-800/60 flex items-center gap-1.5">
+                <i class="fa-solid fa-boxes-stacked"></i> Kelola Produk (<span id="seller-product-count-badge">0</span>)
+              </button>
+              <button onclick="switchSellerTab('orders')" id="seller-tab-btn-orders" class="seller-nav-btn px-3 py-2 rounded-lg hover:text-white hover:bg-slate-800/60 flex items-center gap-1.5">
+                <i class="fa-solid fa-truck-fast"></i> Pengiriman & Pesanan (<span id="seller-orders-badge">0</span>)
+              </button>
+              <button onclick="switchSellerTab('profile')" id="seller-tab-btn-profile" class="seller-nav-btn px-3 py-2 rounded-lg hover:text-white hover:bg-slate-800/60 flex items-center gap-1.5">
+                <i class="fa-solid fa-store"></i> Profil Kebun & Logistik
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <!-- SELLER MAIN WORKSPACE -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 py-6 w-full flex-1">
+          
+          <!-- TAB 1: SELLER DASHBOARD -->
+          <div id="seller-tab-dashboard" class="seller-tab-content space-y-6">
+            <!-- 4 Metric Cards -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider">Pendapatan Panen</span>
+                  <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center text-sm">
+                    <i class="fa-solid fa-rupiah-sign"></i>
+                  </div>
+                </div>
+                <div id="metric-revenue" class="text-xl sm:text-2xl font-black text-slate-900">Rp 4.850.000</div>
+                <div class="flex items-center gap-1 text-[11px] text-emerald-600 font-bold mt-1">
+                  <i class="fa-solid fa-arrow-trend-up"></i>
+                  <span>+18.4% minggu ini</span>
+                </div>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider">Pesanan Baru Masuk</span>
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center text-sm">
+                    <i class="fa-solid fa-receipt"></i>
+                  </div>
+                </div>
+                <div id="metric-orders-pending" class="text-xl sm:text-2xl font-black text-slate-900">2 Pesanan</div>
+                <div class="text-[11px] text-amber-600 font-semibold mt-1">
+                  <i class="fa-solid fa-clock"></i> Butuh diproses segera
+                </div>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider">Produk Aktif</span>
+                  <div class="w-8 h-8 rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center text-sm">
+                    <i class="fa-solid fa-apple-whole"></i>
+                  </div>
+                </div>
+                <div id="metric-active-products" class="text-xl sm:text-2xl font-black text-slate-900">12 Item</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tersedia di etalase pembeli</div>
+              </div>
+
+              <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                  <span class="text-xs font-bold uppercase tracking-wider">Rating Mitra Tani</span>
+                  <div class="w-8 h-8 rounded-lg bg-amber-50 text-amber-500 flex items-center justify-center text-sm">
+                    <i class="fa-solid fa-star"></i>
+                  </div>
+                </div>
+                <div class="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-1.5">
+                  <span>4.9</span>
+                  <span class="text-xs font-normal text-slate-400">/ 5.0</span>
+                </div>
+                <div class="text-[11px] text-emerald-600 font-semibold mt-1">99.4% Kepuasan Pelanggan</div>
+              </div>
+            </div>
+
+            <!-- Quick Action Notification Box -->
+            <div class="bg-gradient-to-r from-brand-900 to-slate-900 text-white p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5">
+                <div class="w-12 h-12 rounded-xl bg-brand-500 text-slate-950 flex items-center justify-center text-2xl flex-shrink-0">
+                  <i class="fa-solid fa-truck-ramp-box"></i>
+                </div>
+                <div>
+                  <h4 class="font-bold text-sm">Atur Logistik & Jadwal Petik Segar</h4>
+                  <p class="text-xs text-slate-300">Ada paket yang perlu disiapkan sebelum kurir pickup dingin tiba pukul 14:00 WIB.</p>
+                </div>
+              </div>
+              <button onclick="switchSellerTab('orders')" class="px-4 py-2.5 rounded-xl bg-white text-slate-950 font-bold text-xs hover:bg-emerald-50 transition flex-shrink-0">
+                Buka Pengiriman Sekarang &rarr;
+              </button>
+            </div>
+
+            <!-- Mini Recent Orders Preview in Dashboard -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 p-5 shadow-xs">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-slate-900 text-sm">Pesanan Terbaru Memerlukan Tindakan</h3>
+                <button onclick="switchSellerTab('orders')" class="text-xs font-bold text-brand-800 hover:underline">Lihat Semua Pesanan &rarr;</button>
+              </div>
+              <div id="seller-dashboard-orders-preview" class="space-y-3">
+                <!-- Dynamically populated -->
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: KELOLA PRODUK PETANI -->
+          <div id="seller-tab-products" class="seller-tab-content hidden space-y-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 class="text-base font-black text-slate-900">Katalog Hasil Panen Petani</h3>
+                <p class="text-xs text-slate-500">Kelola stok, perbarui harga, dan tambah komoditas segar baru</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <input type="text" id="seller-product-search" oninput="filterSellerProducts(this.value)" placeholder="Cari nama produk..." class="text-xs px-3 py-2 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800 w-48">
+                <button onclick="openModalAddProduct()" class="px-4 py-2 rounded-xl bg-brand-800 hover:bg-brand-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-sm">
+                  <i class="fa-solid fa-plus"></i>
+                  <span>Tambah Produk</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Product Table / Cards for Mobile -->
+            <div class="bg-white rounded-2xl border border-slate-200/80 shadow-xs overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs text-slate-600">
+                  <thead class="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[10px]">
+                    <tr>
+                      <th class="p-3.5">Produk Panen</th>
+                      <th class="p-3.5">Kategori</th>
+                      <th class="p-3.5">Harga / Satuan</th>
+                      <th class="p-3.5">Stok Panen</th>
+                      <th class="p-3.5">Asal Kebun</th>
+                      <th class="p-3.5 text-right">Aksi</th>
+                    </tr>
+                  </thead>
+                  <tbody id="seller-products-table-body" class="divide-y divide-slate-100">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: MANAJEMEN PENGIRIMAN & PESANAN -->
+          <div id="seller-tab-orders" class="seller-tab-content hidden space-y-4">
+            <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 class="text-base font-black text-slate-900">Manajemen Pengiriman & Pesanan Masuk</h3>
+                <p class="text-xs text-slate-500">Atur penjemputan logistik panen, terbitkan resi, dan kirim ke pelanggan</p>
+              </div>
+              <!-- Status Filter Pills -->
+              <div class="flex items-center gap-1 bg-slate-100 p-1 rounded-xl text-xs font-semibold">
+                <button onclick="filterSellerOrdersByStatus('all')" id="btn-ord-all" class="ord-filter-btn px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900">Semua</button>
+                <button onclick="filterSellerOrdersByStatus('Perlu Diproses')" id="btn-ord-pending" class="ord-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Perlu Diproses</button>
+                <button onclick="filterSellerOrdersByStatus('Dalam Pengiriman')" id="btn-ord-shipping" class="ord-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Dalam Pengiriman</button>
+                <button onclick="filterSellerOrdersByStatus('Selesai')" id="btn-ord-done" class="ord-filter-btn px-3 py-1.5 rounded-lg text-slate-600 hover:text-slate-900">Selesai</button>
+              </div>
+            </div>
+
+            <!-- Orders Container -->
+            <div id="seller-orders-container" class="space-y-3">
+              <!-- Dynamically populated orders cards with actions -->
+            </div>
+          </div>
+
+          <!-- TAB 4: PROFIL MITRA & PENGATURAN LOGISTIK -->
+          <div id="seller-tab-profile" class="seller-tab-content hidden space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <!-- Left Profile Card -->
+              <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs text-center">
+                <div class="w-24 h-24 mx-auto rounded-full overflow-hidden border-4 border-emerald-100 shadow-sm mb-3">
+                  <img src="https://images.unsplash.com/photo-1595974482597-4b8da8879bc5?auto=format&fit=crop&w=400&q=80" class="w-full h-full object-cover">
+                </div>
+                <h3 class="font-extrabold text-base text-slate-900">Kelompok Tani Sari Mulyani</h3>
+                <p class="text-xs text-slate-500">Mitra Petani Sejak Maret 2023</p>
+                <div class="mt-3 flex justify-center gap-2">
+                  <span class="bg-emerald-50 text-brand-800 text-[10px] font-bold px-2 py-0.5 rounded-full border border-emerald-200">Indramayu, Jabar</span>
+                  <span class="bg-amber-50 text-amber-700 text-[10px] font-bold px-2 py-0.5 rounded-full border border-amber-200">Mitra Utama Grade A</span>
+                </div>
+
+                <div class="mt-6 pt-5 border-t border-slate-100 text-left space-y-3 text-xs text-slate-600">
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-phone text-slate-400 w-4"></i>
+                    <span>+62 821-4567-8910</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-location-dot text-slate-400 w-4"></i>
+                    <span>Blok Cikedung Kidul No. 14, Indramayu</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-clock text-slate-400 w-4"></i>
+                    <span>Jam Petik Panen: 05:30 - 11:00 WIB</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Right Logistics & Bank Settings Form -->
+              <div class="md:col-span-2 space-y-5">
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+                  <h4 class="font-bold text-sm text-slate-900 border-b border-slate-100 pb-2">
+                    <i class="fa-solid fa-truck-moving text-brand-800 mr-1.5"></i> Pengaturan Penjemputan Logistik Kebun
+                  </h4>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                      <label class="block font-semibold text-slate-700 mb-1">Kurir Prioritas yang Diaktifkan</label>
+                      <div class="space-y-1.5 pt-1">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                          <input type="checkbox" checked class="accent-brand-800">
+                          <span>SoekaTani Instant Cold-Chain (Kotak Dingin)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                          <input type="checkbox" checked class="accent-brand-800">
+                          <span>Reguler Sayur Cepat (2-3 Jam)</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                          <input type="checkbox" checked class="accent-brand-800">
+                          <span>Same Day Delivery</span>
+                        </label>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block font-semibold text-slate-700 mb-1">Titik Pickup Petani</label>
+                      <textarea rows="3" class="w-full p-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-800" readonly>Gudang Sortir Tani Sari Mulyani, Jl. Raya Cikedung No. 24, Kab. Indramayu</textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-4">
+                  <h4 class="font-bold text-sm text-slate-900 border-b border-slate-100 pb-2">
+                    <i class="fa-solid fa-money-bill-transfer text-brand-800 mr-1.5"></i> Rekening Pencairan Hasil Panen
+                  </h4>
+                  <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div>
+                      <label class="block font-semibold text-slate-700 mb-1">Bank Penerima</label>
+                      <input type="text" value="Bank Rakyat Indonesia (BRI)" class="w-full p-2 border border-slate-200 rounded-xl bg-slate-50" readonly>
+                    </div>
+                    <div>
+                      <label class="block font-semibold text-slate-700 mb-1">Nomor Rekening</label>
+                      <input type="text" value="0182-01-002345-50-8" class="w-full p-2 border border-slate-200 rounded-xl bg-slate-50 font-mono" readonly>
+                    </div>
+                    <div>
+                      <label class="block font-semibold text-slate-700 mb-1">Atas Nama</label>
+                      <input type="text" value="Kelompok Tani Sari Mulyani" class="w-full p-2 border border-slate-200 rounded-xl bg-slate-50" readonly>
+                    </div>
+                  </div>
+                  <div class="flex justify-end pt-2">
+                    <button onclick="showToast('Data konfigurasi kebun disimpan dengan sukses!')" class="px-4 py-2 bg-brand-800 hover:bg-brand-900 text-white font-bold text-xs rounded-xl shadow-xs">
+                      Simpan Perubahan
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ================= MODAL: TAMBAH / EDIT PRODUK HASIL PANEN ================= -->
+      <div id="modal-product" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-5 sm:p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <h3 id="modal-product-title" class="font-black text-slate-900 text-base">Tambah Hasil Panen Baru</h3>
+            <button onclick="closeModalAddProduct()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <form id="form-product" onsubmit="handleSaveProduct(event)" class="mt-4 space-y-3.5 text-xs">
+            <input type="hidden" id="input-prod-id" value="">
+            
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Nama Produk Panen <span class="text-red-500">*</span></label>
+              <input type="text" id="input-prod-name" required placeholder="Contoh: Alpukat Mentega Super" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Kategori <span class="text-red-500">*</span></label>
+                <select id="input-prod-category" required class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800 bg-white">
+                  <option value="Buah">Buah Segar</option>
+                  <option value="Sayur">Sayuran Hijau</option>
+                  <option value="Paket Hemat">Paket Hemat</option>
+                  <option value="Organik">Produk Organik</option>
+                </select>
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Satuan Berat <span class="text-red-500">*</span></label>
+                <input type="text" id="input-prod-unit" required value="1 kg" placeholder="1 kg / ikat / butir" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Harga Jual (Rp) <span class="text-red-500">*</span></label>
+                <input type="number" id="input-prod-price" required placeholder="25000" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Harga Coret / Asli (Opsional)</label>
+                <input type="number" id="input-prod-original-price" placeholder="30000" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Stok Panen Tersedia (kg/ikat) <span class="text-red-500">*</span></label>
+                <input type="number" id="input-prod-stock" required value="50" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-700 mb-1">Asal Daerah Kebun <span class="text-red-500">*</span></label>
+                <input type="text" id="input-prod-loc" required value="Indramayu, Jawa Barat" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">URL Foto Produk</label>
+              <input type="url" id="input-prod-image" placeholder="https://images.unsplash.com/photo-..." class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800">
+              <div class="flex items-center gap-2 mt-2">
+                <span class="text-[10px] text-slate-400">Atau pilih sampel foto:</span>
+                <button type="button" onclick="setSampleImage('alpukat')" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 rounded text-[10px] font-semibold text-slate-700">🥑 Alpukat</button>
+                <button type="button" onclick="setSampleImage('pepaya')" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 rounded text-[10px] font-semibold text-slate-700">🍈 Pepaya</button>
+                <button type="button" onclick="setSampleImage('bayam')" class="px-2 py-0.5 bg-slate-100 hover:bg-slate-200 rounded text-[10px] font-semibold text-slate-700">🌱 Bayam</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Deskripsi Hasil Panen</label>
+              <textarea id="input-prod-desc" rows="3" placeholder="Jelaskan kualitas rasa, tingkat kematangan, dan keunggulan panen langsung dari kebun..." class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800"></textarea>
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+              <button type="button" onclick="closeModalAddProduct()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-50">Batal</button>
+              <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white font-bold text-xs shadow-md shadow-brand-800/20">
+                Simpan ke Etalase Toko
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: PENGATURAN RESI & PENGIRIMAN ================= -->
+      <div id="modal-shipping" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-md w-full p-5 sm:p-6 shadow-2xl">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+            <h3 class="font-black text-slate-900 text-base">Atur Pengiriman Panen</h3>
+            <button onclick="closeModalShipping()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-500">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-3.5 text-xs">
+            <input type="hidden" id="shipping-order-id" value="">
+            <div class="p-3 bg-emerald-50 rounded-xl border border-emerald-100">
+              <div class="font-bold text-brand-900" id="shipping-customer-name">Budi Santoso</div>
+              <div class="text-[11px] text-slate-600 mt-0.5" id="shipping-customer-address">Jl. Melati No. 12, Menteng, Jakarta Selatan</div>
+              <div class="text-[10px] text-slate-400 mt-1" id="shipping-order-num">No. Pesanan: #ST-2026-9921</div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Pilih Layanan Kurir Penjemputan</label>
+              <select id="shipping-courier-select" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-1 focus:ring-brand-800 bg-white font-medium">
+                <option value="SoekaTani Cold-Chain Express">SoekaTani Cold-Chain Express (Disarankan untuk Buah/Sayur Segar)</option>
+                <option value="Kurir Mitra Same Day (Motor Insulated)">Kurir Mitra Same Day (Motor Insulated)</option>
+                <option value="SiCepat Best Day Fresh">SiCepat Best Day Fresh</option>
+                <option value="Anteraja Sameday Chilled">Anteraja Sameday Chilled</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Nomor Resi / AWB</label>
+              <div class="flex gap-2">
+                <input type="text" id="shipping-tracking-number" class="w-full p-2.5 rounded-xl border border-slate-200 font-mono font-bold text-slate-800 bg-slate-50" readonly>
+                <button onclick="generateRandomResi()" type="button" class="px-3 py-2 bg-slate-200 hover:bg-slate-300 rounded-xl text-slate-700 font-bold whitespace-nowrap text-[11px]">
+                  <i class="fa-solid fa-arrows-rotate"></i> Acak
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Catatan Tambahan untuk Petugas Penjemput</label>
+              <input type="text" id="shipping-notes" value="Box sudah berpendingin es gel & label panen siap petik" class="w-full p-2.5 rounded-xl border border-slate-200 focus:outline-none">
+            </div>
+
+            <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+              <button onclick="closeModalShipping()" class="px-4 py-2.5 rounded-xl border border-slate-200 text-slate-600 font-semibold text-xs hover:bg-slate-50">Batal</button>
+              <button onclick="submitShippingDispatch()" class="px-5 py-2.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white font-bold text-xs shadow-md shadow-brand-800/20 flex items-center gap-1.5">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>Konfirmasi Siap Kirim</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ================= MODAL: PRINT SHIPPING LABEL ================= -->
+      <div id="modal-label" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-5 shadow-2xl">
+          <div class="border-2 border-dashed border-slate-300 p-4 rounded-2xl bg-white text-slate-800 space-y-3">
+            <div class="flex items-center justify-between border-b pb-2">
+              <div class="flex items-center gap-1.5 font-black text-brand-900">
+                <i class="fa-solid fa-leaf text-brand-800"></i> SoekaTani Logistik
+              </div>
+              <span id="label-courier-name" class="text-[10px] font-bold bg-slate-900 text-white px-2 py-0.5 rounded">Cold-Chain</span>
+            </div>
+            <div>
+              <div class="text-[10px] text-slate-400">NO. RESI:</div>
+              <div id="label-resi" class="text-sm font-mono font-black tracking-widest text-slate-900">SKT-8891-COLD</div>
+            </div>
+            <div class="text-xs space-y-1">
+              <div><strong class="text-slate-500 text-[10px]">PENGIRIM:</strong> <span class="font-bold">Kelompok Tani Sari Mulyani (Indramayu)</span></div>
+              <div><strong class="text-slate-500 text-[10px]">PENERIMA:</strong> <span id="label-customer" class="font-bold">Budi Santoso</span></div>
+              <div id="label-address" class="text-[11px] text-slate-600">Jl. Melati No. 12, Menteng, Jakarta Selatan</div>
+            </div>
+            <div class="p-2 bg-slate-50 rounded-lg text-center text-[10px] font-bold text-slate-600">
+              * PRODUK SEGAR - JAGA SUHU DINGIN & JANGAN DITINDIH *
+            </div>
+          </div>
+          <div class="mt-4 flex gap-2">
+            <button onclick="window.print()" class="flex-1 py-2 rounded-xl bg-brand-800 text-white font-bold text-xs"><i class="fa-solid fa-print mr-1"></i> Cetak</button>
+            <button onclick="document.getElementById('modal-label').classList.add('hidden')" class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-semibold">Tutup</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Toast Notification element -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div id="toast-icon" class="w-6 h-6 rounded-full bg-brand-500 flex items-center justify-center text-xs text-white">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <span id="toast-message" class="text-xs font-semibold">Produk berhasil ditambahkan!</span>
+  </div>
+
+  <!-- ================= JAVASCRIPT LOGIC ================= -->
+  <script>
+    /* ==========================================================================
+       DATA PRODUK RESMI SOEKATANI (Disesuaikan dengan Gambar Referensi)
+       ========================================================================== */
+    let PRODUCTS = [
+      {
+        id: 'p1',
+        name: 'Mangga Harum Manis',
+        category: 'Buah',
+        price: 22000,
+        originalPrice: 28000,
+        rating: 4.8,
+        reviewsCount: 1200,
+        soldCount: 1850,
+        stock: 65,
+        unit: '1 kg',
+        farmerName: 'Petani Sari Mulyani',
+        farmerLoc: 'Indramayu, Jawa Barat',
+        image: 'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80',
+        gallery: [
+          'https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=600&q=80',
+          'https://images.unsplash.com/photo-1601493700631-2b16ec4b4716?auto=format&fit=crop&w=600&q=80'
+        ],
+        desc: 'Mangga Harum Manis pilihan matang pohon langsung dari kebun Indramayu. Daging tebal, serat halus, aroma khas harum manis yang memikat. Kaya vitamin C & A.',
+        isBestSeller: true
+      },
+      {
+        id: 'p2',
+        name: 'Cabai Merah Keriting',
+        category: 'Sayur',
+        price: 18000,
+        originalPrice: 24000,
+        rating: 4.7,
+        reviewsCount: 960,
+        soldCount: 1420,
+        stock: 40,
+        unit: '1 kg',
+        farmerName: 'Koperasi Tani Subang',
+        farmerLoc: 'Subang, Jawa Barat',
+        image: 'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=600&q=80',
+        gallery: [
+          'https://images.unsplash.com/photo-1588252303782-cb80119abd6d?auto=format&fit=crop&w=600&q=80'
+        ],
+        desc: 'Cabai merah keriting super pedas alami, dipetik segar di pagi hari. Warna merah merona mengkilap, tahan simpan lebih lama untuk aneka sambal.',
+        isBestSeller: true
+      },
+      {
+        id: 'p3',
+        name: 'Selada Hidroponik',
+        category: 'Sayur',
+        price: 8000,
+        originalPrice: 12000,
+        rating: 4.6,
+        reviewsCount: 532,
+        soldCount: 890,
+        stock: 80,
+        unit: '1 ikat (250g)',
+        farmerName: 'Green House Lembang',
+        farmerLoc: 'Bandung, Jawa Barat',
+        image: 'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?auto=format&fit=crop&w=600&q=80',
+        gallery: [
+          'https://images.unsplash.com/photo-1622206151226-18ca2c9ab4a1?auto=format&fit=crop&w=600&q=80'
+        ],
+        desc: 'Selada hidroponik bersih tanpa pestisida kimia. Tekstur renyah dan segar, sangat ideal untuk salad segar, burger rumahan, dan garnis.',
+        isBestSeller: true
+      },
+      {
+        id: 'p4',
+        name: 'Tomat Segar',
+        category: 'Sayur',
+        price: 15000,
+        originalPrice: 19000,
+        rating: 4.7,
+        reviewsCount: 584,
+        soldCount: 940,
+        stock: 55,
+        unit: '1 kg',
+        farmerName: 'Agro Berkah Malang',
+        farmerLoc: 'Malang, Jawa Timur',
+        image: 'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80',
+        gallery: [
+          'https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80'
+        ],
+        desc: 'Tomat apel segar dengan kulit kencang dan kandungan air tinggi. Rasa segar asam manis seimbang untuk masakan harian dan jus tomat bernutrisi.',
+        isBestSeller: true
+      },
+      {
+        id: 'p5',
+        name: 'Jeruk Medan',
+        category: 'Buah',
+        price: 18000,
+        originalPrice: 24000,
+        rating: 4.8,
+        reviewsCount: 724,
+        soldCount: 1100,
+        stock: 35,
+        unit: '1 kg',
+        farmerName: 'Tani Berastagi Sejuk',
+        farmerLoc: 'Medan, Sumatra Utara',
+        image: 'https://images.unsplash.com/photo-1582979512210-99b6a53386f9?auto=format&fit=crop&w=600&q=80',
+        gallery: [
+          'https://images.unsplash.com/photo-1582979512210-99b6a53386f9?auto=format&fit=crop&w=600&q=80'
+        ],
+        desc: 'Jeruk Medan manis legit dengan bulir air berlimpah. Kulit tipis mudah dikupas, sangat cocok untuk asupan vitamin C harian keluarga.',
+        isBestSeller: true
+      },
+      {
+        id: 'p6',
+        name: 'Pisang Cavendish',
+        category: 'Buah',
+        price: 12000,
+        originalPrice: 16000,
+        rating: 4.6,
+        reviewsCount: 724,
+        soldCount: 1340,
+        stock: 90,
+        unit: '1 sisir (~1.2 kg)',
+        farmerName: 'Kebun Tani Subang',
+        farmerLoc: 'Subang, Jawa Barat',
+        image: 'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80',
+        gallery: [
+          'https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=600&q=80'
+        ],
+        desc: 'Pisang Cavendish mulus tanpa getah berlebih. Tekstur lembut manis alami, sumber energi instan sebelum berolahraga atau camilan sehat anak.',
+        isBestSeller: true
+      }
+    ];
+
+    /* ==========================================================================
+       SELLER ORDERS & SHIPPING DATABASE (In-Memory State)
+       ========================================================================== */
+    let SELLER_ORDERS = [
+      {
+        orderId: 'ST-2026-9921',
+        customerName: 'Budi Santoso',
+        phone: '0812-3456-7890',
+        address: 'Jl. Melati No. 12, Kel. Menteng, Jakarta Selatan',
+        date: '28 Sep 2026, 09:30 WIB',
+        items: [
+          { name: 'Mangga Harum Manis', qty: 2, price: 22000, unit: '1 kg' },
+          { name: 'Tomat Segar', qty: 1, price: 15000, unit: '1 kg' }
+        ],
+        subtotal: 59000,
+        shippingFee: 15000,
+        total: 74000,
+        paymentMethod: 'QRIS Instan',
+        status: 'Perlu Diproses', // 'Perlu Diproses' | 'Dalam Pengiriman' | 'Selesai'
+        courier: 'SoekaTani Cold-Chain Express',
+        resi: 'SKT-9921-COLD'
+      },
+      {
+        orderId: 'ST-2026-9884',
+        customerName: 'Siti Rahmawati',
+        phone: '0857-1122-3344',
+        address: 'Apartemen Sudirman Tower A Lt. 8, Jakarta Pusat',
+        date: '28 Sep 2026, 08:15 WIB',
+        items: [
+          { name: 'Selada Hidroponik', qty: 3, price: 8000, unit: '1 ikat' },
+          { name: 'Cabai Merah Keriting', qty: 1, price: 18000, unit: '1 kg' }
+        ],
+        subtotal: 42000,
+        shippingFee: 15000,
+        total: 57000,
+        paymentMethod: 'Virtual Account BCA',
+        status: 'Perlu Diproses',
+        courier: 'Reguler Sayur Cepat',
+        resi: 'SKT-9884-REG'
+      },
+      {
+        orderId: 'ST-2026-9740',
+        customerName: 'Hendra Gunawan',
+        phone: '0813-8899-7766',
+        address: 'Pondok Indah Blok G-4, Jakarta Selatan',
+        date: '27 Sep 2026, 16:40 WIB',
+        items: [
+          { name: 'Pisang Cavendish', qty: 2, price: 12000, unit: '1 sisir' }
+        ],
+        subtotal: 24000,
+        shippingFee: 15000,
+        total: 39000,
+        paymentMethod: 'COD (Bayar di Tempat)',
+        status: 'Dalam Pengiriman',
+        courier: 'SoekaTani Cold-Chain Express',
+        resi: 'SKT-9740-COLD'
+      }
+    ];
+
+    /* ==========================================================================
+       SAMPLE IMAGES DICTIONARY
+       ========================================================================== */
+    const SAMPLE_IMAGES = {
+      alpukat: 'https://images.unsplash.com/photo-1523049673857-eb18f1d7b578?auto=format&fit=crop&w=600&q=80',
+      pepaya: 'https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=600&q=80',
+      bayam: 'https://images.unsplash.com/photo-1576045057995-568f588f82fb?auto=format&fit=crop&w=600&q=80'
+    };
+
+    /* Current Global State */
+    let currentAppRole = 'buyer'; // 'buyer' or 'seller'
+    let currentSellerTab = 'dashboard';
+    let currentOrderFilterStatus = 'all';
+
+    /* ==========================================================================
+       ROLE & VIEW SWITCHER
+       ========================================================================== */
+    function switchAppRole(role) {
+      currentAppRole = role;
+      const buyerEl = document.getElementById('buyer-interface');
+      const sellerEl = document.getElementById('seller-interface');
+      const btnBuyer = document.getElementById('btn-role-buyer');
+      const btnSeller = document.getElementById('btn-role-seller');
+
+      if (role === 'seller') {
+        buyerEl.classList.add('hidden');
+        sellerEl.classList.remove('hidden');
+        btnSeller.className = 'px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold transition-all bg-brand-500 text-slate-900 shadow-sm';
+        btnBuyer.className = 'px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold transition-all text-emerald-300 hover:text-white';
+        renderSellerDashboard();
+        renderSellerProductsTable();
+        renderSellerOrders();
+        showToast('🚜 Membuka Portal Mitra Petani (Penjual)');
+      } else {
+        sellerEl.classList.add('hidden');
+        buyerEl.classList.remove('hidden');
+        btnBuyer.className = 'px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold transition-all bg-brand-500 text-slate-900 shadow-sm';
+        btnSeller.className = 'px-3 py-1.5 rounded-lg flex items-center gap-1.5 font-bold transition-all text-emerald-300 hover:text-white';
+        renderHomeProducts();
+        renderCatalog();
+        showToast('🛒 Beralih ke Toko Pembeli');
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function switchSellerTab(tabId) {
+      currentSellerTab = tabId;
+      document.querySelectorAll('.seller-tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.seller-nav-btn').forEach(btn => {
+        btn.classList.remove('text-emerald-400', 'bg-slate-800');
+        btn.classList.add('hover:text-white', 'hover:bg-slate-800/60');
+      });
+
+      const activeTab = document.getElementById('seller-tab-' + tabId);
+      const activeBtn = document.getElementById('seller-tab-btn-' + tabId);
+      if (activeTab) activeTab.classList.remove('hidden');
+      if (activeBtn) {
+        activeBtn.classList.add('text-emerald-400', 'bg-slate-800');
+        activeBtn.classList.remove('hover:text-white', 'hover:bg-slate-800/60');
+      }
+
+      if (tabId === 'products') renderSellerProductsTable();
+      if (tabId === 'orders') renderSellerOrders();
+      if (tabId === 'dashboard') renderSellerDashboard();
+    }
+
+    /* ==========================================================================
+       SELLER PORTAL: DASHBOARD & METRICS
+       ========================================================================== */
+    function renderSellerDashboard() {
+      // Calculate metrics
+      const totalRevenue = SELLER_ORDERS.reduce((acc, o) => acc + o.subtotal, 4850000);
+      const pendingOrders = SELLER_ORDERS.filter(o => o.status === 'Perlu Diproses').length;
+      
+      document.getElementById('metric-revenue').innerText = formatRupiah(totalRevenue);
+      document.getElementById('metric-orders-pending').innerText = `${pendingOrders} Pesanan`;
+      document.getElementById('metric-active-products').innerText = `${PRODUCTS.length} Item`;
+      document.getElementById('badge-seller-pending').innerText = pendingOrders;
+      document.getElementById('seller-orders-badge').innerText = SELLER_ORDERS.length;
+      document.getElementById('seller-product-count-badge').innerText = PRODUCTS.length;
+
+      // Render recent orders preview
+      const previewContainer = document.getElementById('seller-dashboard-orders-preview');
+      const recentNeedAction = SELLER_ORDERS.filter(o => o.status === 'Perlu Diproses').slice(0, 3);
+      
+      if (recentNeedAction.length === 0) {
+        previewContainer.innerHTML = '<p class="text-xs text-slate-400 py-3">Tidak ada pesanan tertunda. Semua pesanan telah diproses!</p>';
+        return;
+      }
+
+      previewContainer.innerHTML = recentNeedAction.map(ord => `
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between p-3.5 rounded-xl border border-amber-200 bg-amber-50/40 gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-bold text-xs text-slate-900">${ord.customerName}</span>
+              <span class="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-amber-200 text-slate-600">${ord.orderId}</span>
+              <span class="text-[10px] bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded-full">Perlu Diproses</span>
+            </div>
+            <p class="text-[11px] text-slate-600 mt-1">${ord.items.map(i => `${i.qty}x ${i.name}`).join(', ')} &bull; <strong class="text-brand-900">${formatRupiah(ord.total)}</strong></p>
+          </div>
+          <button onclick="openModalShipping('${ord.orderId}')" class="px-3.5 py-1.5 rounded-lg bg-brand-800 hover:bg-brand-900 text-white font-bold text-xs self-start sm:self-auto flex items-center gap-1.5 shadow-xs">
+            <i class="fa-solid fa-truck-ramp-box"></i>
+            <span>Atur Pengiriman</span>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    /* ==========================================================================
+       SELLER PORTAL: KELOLA & TAMBAH PRODUK
+       ========================================================================== */
+    function renderSellerProductsTable(filteredList = null) {
+      const tbody = document.getElementById('seller-products-table-body');
+      const list = filteredList || PRODUCTS;
+
+      document.getElementById('seller-product-count-badge').innerText = PRODUCTS.length;
+      document.getElementById('metric-active-products').innerText = `${PRODUCTS.length} Item`;
+
+      if (list.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">Tidak ada produk ditemukan.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = list.map(p => `
+        <tr class="hover:bg-slate-50 transition">
+          <td class="p-3.5 flex items-center gap-3">
+            <img src="${p.image}" class="w-10 h-10 rounded-lg object-cover bg-slate-100 flex-shrink-0">
+            <div>
+              <div class="font-bold text-slate-900 text-xs">${p.name}</div>
+              <div class="text-[10px] text-slate-400">Terjual: ${p.soldCount || 0} kg</div>
+            </div>
+          </td>
+          <td class="p-3.5">
+            <span class="px-2 py-0.5 bg-slate-100 rounded-full text-[10px] font-bold text-slate-700">${p.category}</span>
+          </td>
+          <td class="p-3.5">
+            <div class="font-extrabold text-brand-900">${formatRupiah(p.price)}</div>
+            <div class="text-[10px] text-slate-400">per ${p.unit}</div>
+          </td>
+          <td class="p-3.5">
+            <div class="flex items-center gap-2">
+              <span class="font-bold ${(p.stock || 50) < 20 ? 'text-red-500' : 'text-slate-800'}">${p.stock || 50} kg</span>
+              <button onclick="quickAdjustStock('${p.id}', 10)" title="Tambah 10kg stok" class="w-5 h-5 rounded bg-slate-100 hover:bg-emerald-100 text-slate-600 hover:text-emerald-800 flex items-center justify-center font-bold text-[10px]">+</button>
+            </div>
+          </td>
+          <td class="p-3.5 text-slate-600 text-[11px]">${p.farmerLoc}</td>
+          <td class="p-3.5 text-right space-x-1 whitespace-nowrap">
+            <button onclick="editProduct('${p.id}')" class="px-2 py-1 bg-slate-100 hover:bg-slate-200 rounded text-slate-700 font-semibold text-[11px]" title="Edit">
+              <i class="fa-solid fa-pen-to-square"></i>
+            </button>
+            <button onclick="deleteProduct('${p.id}')" class="px-2 py-1 bg-red-50 hover:bg-red-100 text-red-600 rounded font-semibold text-[11px]" title="Hapus">
+              <i class="fa-regular fa-trash-can"></i>
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function filterSellerProducts(term) {
+      const q = term.toLowerCase();
+      const filtered = PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || p.category.toLowerCase().includes(q));
+      renderSellerProductsTable(filtered);
+    }
+
+    function quickAdjustStock(id, amount) {
+      const prod = PRODUCTS.find(p => p.id === id);
+      if (prod) {
+        prod.stock = (prod.stock || 50) + amount;
+        renderSellerProductsTable();
+        showToast(`Stok ${prod.name} ditambahkan +${amount} kg`);
+      }
+    }
+
+    function openModalAddProduct() {
+      document.getElementById('modal-product-title').innerText = 'Tambah Hasil Panen Baru';
+      document.getElementById('input-prod-id').value = '';
+      document.getElementById('input-prod-name').value = '';
+      document.getElementById('input-prod-category').value = 'Buah';
+      document.getElementById('input-prod-unit').value = '1 kg';
+      document.getElementById('input-prod-price').value = '';
+      document.getElementById('input-prod-original-price').value = '';
+      document.getElementById('input-prod-stock').value = '50';
+      document.getElementById('input-prod-loc').value = 'Indramayu, Jawa Barat';
+      document.getElementById('input-prod-image').value = '';
+      document.getElementById('input-prod-desc').value = '';
+
+      document.getElementById('modal-product').classList.remove('hidden');
+    }
+
+    function closeModalAddProduct() {
+      document.getElementById('modal-product').classList.add('hidden');
+    }
+
+    function setSampleImage(type) {
+      const url = SAMPLE_IMAGES[type];
+      if (url) {
+        document.getElementById('input-prod-image').value = url;
+      }
+    }
+
+    function editProduct(id) {
+      const p = PRODUCTS.find(item => item.id === id);
+      if (!p) return;
+
+      document.getElementById('modal-product-title').innerText = 'Edit Hasil Panen';
+      document.getElementById('input-prod-id').value = p.id;
+      document.getElementById('input-prod-name').value = p.name;
+      document.getElementById('input-prod-category').value = p.category;
+      document.getElementById('input-prod-unit').value = p.unit;
+      document.getElementById('input-prod-price').value = p.price;
+      document.getElementById('input-prod-original-price').value = p.originalPrice || '';
+      document.getElementById('input-prod-stock').value = p.stock || 50;
+      document.getElementById('input-prod-loc').value = p.farmerLoc;
+      document.getElementById('input-prod-image').value = p.image;
+      document.getElementById('input-prod-desc').value = p.desc || '';
+
+      document.getElementById('modal-product').classList.remove('hidden');
+    }
+
+    function handleSaveProduct(e) {
+      e.preventDefault();
+      const id = document.getElementById('input-prod-id').value;
+      const name = document.getElementById('input-prod-name').value;
+      const category = document.getElementById('input-prod-category').value;
+      const unit = document.getElementById('input-prod-unit').value;
+      const price = Number(document.getElementById('input-prod-price').value);
+      const originalPrice = Number(document.getElementById('input-prod-original-price').value) || (price + 5000);
+      const stock = Number(document.getElementById('input-prod-stock').value) || 50;
+      const farmerLoc = document.getElementById('input-prod-loc').value;
+      let image = document.getElementById('input-prod-image').value;
+      const desc = document.getElementById('input-prod-desc').value;
+
+      if (!image) {
+        image = 'https://images.unsplash.com/photo-1540420773420-3366772f4999?auto=format&fit=crop&w=600&q=80';
+      }
+
+      if (id) {
+        // Update Existing
+        const idx = PRODUCTS.findIndex(p => p.id === id);
+        if (idx > -1) {
+          PRODUCTS[idx] = {
+            ...PRODUCTS[idx],
+            name, category, unit, price, originalPrice, stock, farmerLoc, image, desc
+          };
+          showToast(`Produk "${name}" berhasil diperbarui!`);
+        }
+      } else {
+        // Add New
+        const newProduct = {
+          id: 'p_' + Date.now(),
+          name,
+          category,
+          price,
+          originalPrice,
+          rating: 5.0,
+          reviewsCount: 1,
+          soldCount: 0,
+          stock,
+          unit,
+          farmerName: 'Petani Sari Mulyani',
+          farmerLoc,
+          image,
+          gallery: [image],
+          desc,
+          isBestSeller: false
+        };
+        PRODUCTS.unshift(newProduct);
+        showToast(`Panen baru "${name}" berhasil ditambahkan ke etalase!`);
+      }
+
+      closeModalAddProduct();
+      renderSellerProductsTable();
+      renderHomeProducts();
+      renderCatalog();
+    }
+
+    function deleteProduct(id) {
+      const idx = PRODUCTS.findIndex(p => p.id === id);
+      if (idx > -1) {
+        const name = PRODUCTS[idx].name;
+        PRODUCTS.splice(idx, 1);
+        renderSellerProductsTable();
+        renderHomeProducts();
+        renderCatalog();
+        showToast(`Produk "${name}" telah dihapus.`);
+      }
+    }
+
+    /* ==========================================================================
+       SELLER PORTAL: MANAJEMEN PENGIRIMAN & PESANAN
+       ========================================================================== */
+    function filterSellerOrdersByStatus(status) {
+      currentOrderFilterStatus = status;
+      document.querySelectorAll('.ord-filter-btn').forEach(b => {
+        b.classList.remove('bg-white', 'shadow-xs', 'text-slate-900');
+        b.classList.add('text-slate-600');
+      });
+
+      if (status === 'all') document.getElementById('btn-ord-all').classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+      if (status === 'Perlu Diproses') document.getElementById('btn-ord-pending').classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+      if (status === 'Dalam Pengiriman') document.getElementById('btn-ord-shipping').classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+      if (status === 'Selesai') document.getElementById('btn-ord-done').classList.add('bg-white', 'shadow-xs', 'text-slate-900');
+
+      renderSellerOrders();
+    }
+
+    function renderSellerOrders() {
+      const container = document.getElementById('seller-orders-container');
+      const list = currentOrderFilterStatus === 'all' 
+        ? SELLER_ORDERS 
+        : SELLER_ORDERS.filter(o => o.status === currentOrderFilterStatus);
+
+      if (list.length === 0) {
+        container.innerHTML = `
+          <div class="bg-white p-8 rounded-2xl border border-slate-200/80 text-center text-slate-400">
+            <i class="fa-solid fa-box-open text-3xl mb-2"></i>
+            <p class="text-xs font-bold text-slate-700">Tidak ada pesanan di kategori ini</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = list.map(ord => {
+        let badgeColor = 'bg-amber-100 text-amber-800 border-amber-300';
+        if (ord.status === 'Dalam Pengiriman') badgeColor = 'bg-blue-100 text-blue-800 border-blue-300';
+        if (ord.status === 'Selesai') badgeColor = 'bg-emerald-100 text-emerald-800 border-emerald-300';
+
+        return `
+          <div class="bg-white rounded-2xl border border-slate-200/80 p-4 sm:p-5 shadow-xs space-y-3">
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div>
+                <span class="font-mono font-bold text-xs text-slate-900">${ord.orderId}</span>
+                <span class="text-xs text-slate-400 mx-1.5">&bull;</span>
+                <span class="text-xs text-slate-500">${ord.date}</span>
+              </div>
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${badgeColor}">
+                ${ord.status}
+              </span>
+            </div>
+
+            <!-- Customer & Item Info -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+              <div>
+                <div class="text-[10px] uppercase font-bold text-slate-400">Penerima & Alamat:</div>
+                <div class="font-bold text-slate-800 mt-0.5">${ord.customerName} (${ord.phone})</div>
+                <div class="text-slate-500 text-[11px] mt-0.5">${ord.address}</div>
+              </div>
+
+              <div>
+                <div class="text-[10px] uppercase font-bold text-slate-400">Komoditas Panen:</div>
+                <div class="space-y-1 mt-0.5">
+                  ${ord.items.map(item => `
+                    <div class="text-slate-700 flex justify-between pr-4">
+                      <span>${item.qty}x ${item.name} (${item.unit})</span>
+                      <span class="font-semibold">${formatRupiah(item.price * item.qty)}</span>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+
+              <div class="border-t md:border-t-0 md:border-l md:pl-4 border-slate-100 flex flex-col justify-between">
+                <div>
+                  <div class="text-[10px] uppercase font-bold text-slate-400">Ekspedisi & Resi:</div>
+                  <div class="font-bold text-slate-800 mt-0.5">${ord.courier}</div>
+                  <div class="font-mono text-[11px] text-brand-900 font-bold">${ord.resi}</div>
+                  <div class="mt-1 text-slate-500 text-[11px]">Metode: ${ord.paymentMethod}</div>
+                </div>
+                <div class="mt-2 text-right">
+                  <span class="text-[10px] text-slate-400">Total Pembayaran:</span>
+                  <div class="text-sm font-black text-brand-800">${formatRupiah(ord.total)}</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action Buttons for Order Logistics -->
+            <div class="pt-2 border-t border-slate-100 flex flex-wrap items-center justify-end gap-2">
+              <button onclick="printShippingLabel('${ord.orderId}')" class="px-3 py-1.5 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-700 font-semibold text-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-print"></i>
+                <span>Cetak Label Pengiriman</span>
+              </button>
+
+              ${ord.status === 'Perlu Diproses' ? `
+                <button onclick="openModalShipping('${ord.orderId}')" class="px-4 py-1.5 rounded-xl bg-brand-800 hover:bg-brand-900 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-truck-ramp-box"></i>
+                  <span>Atur Pengiriman & Pickup</span>
+                </button>
+              ` : ''}
+
+              ${ord.status === 'Dalam Pengiriman' ? `
+                <button onclick="markOrderCompleted('${ord.orderId}')" class="px-4 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 shadow-xs">
+                  <i class="fa-solid fa-circle-check"></i>
+                  <span>Tandai Selesai Diterima</span>
+                </button>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openModalShipping(orderId) {
+      const ord = SELLER_ORDERS.find(o => o.orderId === orderId);
+      if (!ord) return;
+
+      document.getElementById('shipping-order-id').value = ord.orderId;
+      document.getElementById('shipping-customer-name').innerText = ord.customerName;
+      document.getElementById('shipping-customer-address').innerText = ord.address;
+      document.getElementById('shipping-order-num').innerText = `No. Pesanan: ${ord.orderId}`;
+      document.getElementById('shipping-tracking-number').value = ord.resi || ('SKT-' + Math.floor(1000 + Math.random() * 9000) + '-COLD');
+
+      document.getElementById('modal-shipping').classList.remove('hidden');
+    }
+
+    function closeModalShipping() {
+      document.getElementById('modal-shipping').classList.add('hidden');
+    }
+
+    function generateRandomResi() {
+      const code = 'SKT-' + Math.floor(1000 + Math.random() * 9000) + '-EXP';
+      document.getElementById('shipping-tracking-number').value = code;
+    }
+
+    function submitShippingDispatch() {
+      const orderId = document.getElementById('shipping-order-id').value;
+      const courier = document.getElementById('shipping-courier-select').value;
+      const resi = document.getElementById('shipping-tracking-number').value;
+
+      const ord = SELLER_ORDERS.find(o => o.orderId === orderId);
+      if (ord) {
+        ord.courier = courier;
+        ord.resi = resi;
+        ord.status = 'Dalam Pengiriman';
+        showToast(`Pesanan ${orderId} siap di-pickup oleh ${courier}`);
+      }
+
+      closeModalShipping();
+      renderSellerOrders();
+      renderSellerDashboard();
+    }
+
+    function markOrderCompleted(orderId) {
+      const ord = SELLER_ORDERS.find(o => o.orderId === orderId);
+      if (ord) {
+        ord.status = 'Selesai';
+        showToast(`Pesanan ${orderId} berhasil diselesaikan! Dana diteruskan ke saldo petani.`);
+        renderSellerOrders();
+        renderSellerDashboard();
+      }
+    }
+
+    function printShippingLabel(orderId) {
+      const ord = SELLER_ORDERS.find(o => o.orderId === orderId);
+      if (!ord) return;
+
+      document.getElementById('label-courier-name').innerText = ord.courier.includes('Cold') ? 'Cold-Chain ❄️' : 'Reguler Sayur';
+      document.getElementById('label-resi').innerText = ord.resi;
+      document.getElementById('label-customer').innerText = `${ord.customerName} (${ord.phone})`;
+      document.getElementById('label-address').innerText = ord.address;
+
+      document.getElementById('modal-label').classList.remove('hidden');
+    }
+
+    /* ==========================================================================
+       CHECKOUT & PAYMENT LOGIC (Defined directly to prevent ReferenceError)
+       ========================================================================== */
+    function processOrderPayment() {
+      if (typeof cart === 'undefined' || cart.length === 0) {
+        showToast('Keranjang belanja kosong');
+        return;
+      }
+
+      const shippingCost = typeof currentShippingCost !== 'undefined' ? currentShippingCost : 15000;
+      const selectedPaymentEl = document.querySelector('input[name="payment_method"]:checked');
+      const paymentMethod = selectedPaymentEl ? selectedPaymentEl.value : 'QRIS Instan';
+      const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+      const grandTotal = subtotal + shippingCost;
+      const newOrderId = 'ST-' + new Date().getFullYear() + '-' + Math.floor(1000 + Math.random() * 9000);
+
+      // Auto Add to Seller Orders database
+      const newSellerOrder = {
+        orderId: newOrderId,
+        customerName: 'Budi Santoso',
+        phone: '0812-3456-7890',
+        address: 'Jl. Melati No. 12, Kel. Menteng, Jakarta Selatan',
+        date: 'Hari ini, baru saja',
+        items: cart.map(item => ({
+          name: item.variant || item.name,
+          qty: item.qty,
+          price: item.price,
+          unit: item.unit || '1 kg'
+        })),
+        subtotal: subtotal,
+        shippingFee: shippingCost,
+        total: grandTotal,
+        paymentMethod: paymentMethod,
+        status: 'Perlu Diproses',
+        courier: shippingCost === 25000 ? 'Same Day Instant Express' : 'SoekaTani Cold-Chain Express',
+        resi: 'SKT-' + Math.floor(1000 + Math.random() * 9000) + '-COLD'
+      };
+
+      SELLER_ORDERS.unshift(newSellerOrder);
+      renderSellerDashboard();
+
+      // Update success receipt UI if elements exist
+      const orderNumEl = document.getElementById('success-order-id');
+      const orderTotalEl = document.getElementById('success-order-total');
+      const orderDateEl = document.getElementById('success-order-date');
+
+      if (orderNumEl) orderNumEl.innerText = '#' + newOrderId;
+      if (orderTotalEl) orderTotalEl.innerText = formatRupiah(grandTotal);
+      if (orderDateEl) {
+        const now = new Date();
+        orderDateEl.innerText = now.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + 
+                                now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+      }
+
+      // Clear cart
+      cart = [];
+      if (typeof updateCartUI === 'function') updateCartUI();
+
+      // Navigate to success page
+      if (typeof navigateTo === 'function') {
+        navigateTo('success');
+      }
+
+      showToast('🎉 Pembayaran berhasil dikonfirmasi!');
+    }
+
+    /* Additional Window Load Call */
+    window.addEventListener('DOMContentLoaded', () => {
+      renderSellerDashboard();
+      renderSellerProductsTable();
+      renderSellerOrders();
+    });
+  </script>
+</body>
+</html>

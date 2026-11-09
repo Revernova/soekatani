@@ -1,0 +1,8 @@
+{
+  "name": "SoekaTani Suite",
+  "description": "Platform Agri-E-Commerce & Portal Mitra Petani modern Indonesia: belanja hasil panen segar langsung dari kebun dan kelola pesanan logistik panen cold-chain.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
